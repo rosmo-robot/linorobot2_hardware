@@ -66,6 +66,10 @@
     #include "custom/esp32s3_zio_config.h"
 #endif
 
+#ifdef USE_ESP32_ZIO_CONFIG
+    #include "custom/esp32_zio_config.h"
+#endif
+
 // add user configurations above this line
 // this should be the last one
 #ifndef LINO_BASE
