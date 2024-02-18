@@ -46,6 +46,9 @@
 // this barrier helps to reduce user merge conflict
 // add user configurations below this line
 
+#ifdef USE_PICO_ME_CONFIG
+    #include "custom/pico_me_config.h"
+#endif
 
 // add user configurations above this line
 // this should be the last one
