@@ -491,7 +491,10 @@ void setup()
     Wire.setSDA(SDA_PIN);
     Wire.setSCL(SCL_PIN);
 #endif
+#else
+    Wire.begin();
 #endif
+    Wire.setClock(400000);
 #ifdef BOARD_INIT // board specific setup
     BOARD_INIT
 #endif
