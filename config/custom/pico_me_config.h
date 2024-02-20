@@ -54,17 +54,17 @@ ROBOT ORIENTATION
 */
 
 //define your robot' specs here
-#define MOTOR_MAX_RPM 150                   // motor's max RPM
+#define MOTOR_MAX_RPM 180                   // motor's max RPM
 #define MAX_RPM_RATIO 0.85                  // max RPM allowed for each MAX_RPM_ALLOWED = MOTOR_MAX_RPM * MAX_RPM_RATIO
 #define MOTOR_OPERATING_VOLTAGE 12          // motor's operating voltage (used to calculate max RPM)
 #define MOTOR_POWER_MAX_VOLTAGE 12          // max voltage of the motor's power source (used to calculate max RPM)
 #define MOTOR_POWER_MEASURED_VOLTAGE 12     // current voltage reading of the power connected to the motor (used for calibration)
-#define COUNTS_PER_REV1 1100                // wheel1 encoder's no of ticks per rev
-#define COUNTS_PER_REV2 1100                // wheel2 encoder's no of ticks per rev
-#define COUNTS_PER_REV3 1100                // wheel3 encoder's no of ticks per rev
-#define COUNTS_PER_REV4 1100                // wheel4 encoder's no of ticks per rev
+#define COUNTS_PER_REV1 900                 // wheel1 encoder's no of ticks per rev
+#define COUNTS_PER_REV2 900                 // wheel2 encoder's no of ticks per rev
+#define COUNTS_PER_REV3 900                 // wheel3 encoder's no of ticks per rev
+#define COUNTS_PER_REV4 900                 // wheel4 encoder's no of ticks per rev
 #define WHEEL_DIAMETER 0.0800               // wheel's diameter in meters
-#define LR_WHEELS_DISTANCE 0.224            // distance between left and right wheels
+#define LR_WHEELS_DISTANCE 0.210            // distance between left and right wheels
 #define PWM_BITS 12                         // PWM Resolution of the microcontroller
 #define PWM_FREQUENCY 100                   // PWM Frequency
 
