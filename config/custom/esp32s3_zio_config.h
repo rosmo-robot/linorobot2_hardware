@@ -18,14 +18,14 @@
 #define LED_PIN LED_BUILTIN //used for debugging status
 
 //uncomment the base you're building
-#define LINO_BASE DIFFERENTIAL_DRIVE       // 2WD and Tracked robot w/ 2 motors
+// #define LINO_BASE DIFFERENTIAL_DRIVE       // 2WD and Tracked robot w/ 2 motors
 // #define LINO_BASE SKID_STEER            // 4WD robot
-// #define LINO_BASE MECANUM               // Mecanum drive robot
+#define LINO_BASE MECANUM               // Mecanum drive robot
 
 //uncomment the motor driver you're using
-// #define USE_GENERIC_2_IN_MOTOR_DRIVER      // Motor drivers with 2 Direction Pins(INA, INB) and 1 PWM(ENABLE) pin ie. L298, L293, VNH5019
+#define USE_GENERIC_2_IN_MOTOR_DRIVER      // Motor drivers with 2 Direction Pins(INA, INB) and 1 PWM(ENABLE) pin ie. L298, L293, VNH5019
 // #define USE_GENERIC_1_IN_MOTOR_DRIVER   // Motor drivers with 1 Direction Pin(INA) and 1 PWM(ENABLE) pin.
-#define USE_BTS7960_MOTOR_DRIVER        // BTS7970 Motor Driver using A4950 (<40V) module or DRV8833 (<10V)
+// #define USE_BTS7960_MOTOR_DRIVER        // BTS7970 Motor Driver using A4950 (<40V) module or DRV8833 (<10V)
 // #define USE_ESC_MOTOR_DRIVER            // Motor ESC for brushless motors
 
 //uncomment the IMU you're using
@@ -67,6 +67,7 @@ ROBOT ORIENTATION
 #define LR_WHEELS_DISTANCE 0.224            // distance between left and right wheels
 #define PWM_BITS 12                         // PWM Resolution of the microcontroller
 #define PWM_FREQUENCY 100                   // PWM Frequency
+#define PCA_BASE 100                        // enable PCA9685 support
 
 // INVERT ENCODER COUNTS
 #define MOTOR1_ENCODER_INV false
@@ -95,21 +96,20 @@ ROBOT ORIENTATION
 
 // MOTOR PINS
 #ifdef USE_GENERIC_2_IN_MOTOR_DRIVER
-  #define MOTOR1_PWM 21 //Pin no 21 is not a PWM pin on Teensy 4.x, you can swap it with pin no 1 instead.
-  #define MOTOR1_IN_A 20
-  #define MOTOR1_IN_B 1
-
-  #define MOTOR2_PWM 5
-  #define MOTOR2_IN_A 6
-  #define MOTOR2_IN_B 8
-
-  #define MOTOR3_PWM 22
-  #define MOTOR3_IN_A 23
-  #define MOTOR3_IN_B 0
-
-  #define MOTOR4_PWM 4
-  #define MOTOR4_IN_A 3
-  #define MOTOR4_IN_B 2
+  #define MOTOR1_PWM  100
+  #define MOTOR1_IN_A 101
+  #define MOTOR1_IN_B 102
+  #define MOTOR2_PWM  106
+  #define MOTOR2_IN_A 104
+  #define MOTOR2_IN_B 105
+  #define MOTOR3_PWM  107
+  #define MOTOR3_IN_A 108
+  #define MOTOR3_IN_B 109
+  #define MOTOR4_PWM  113
+  #define MOTOR4_IN_A 111
+  #define MOTOR4_IN_B 112
+    #define MOTOR_STBY_1 103
+    #define MOTOR_STBY_2 110
 
   #define PWM_MAX pow(2, PWM_BITS) - 1
   #define PWM_MIN -PWM_MAX
@@ -222,7 +222,10 @@ const int16_t ADC_LUT[4096] = { /* insert adc_calibrate data here */ };
     Wire.begin(SDA_PIN, SCL_PIN); \
     Wire.setClock(400000); \
 }
-// #define BOARD_INIT_LATE {}
+#define BOARD_INIT_LATE { \
+setLevel(MOTOR_STBY_1, HIGH); \
+setLevel(MOTOR_STBY_2, HIGH); \
+}
 
 #ifdef USE_SYSLOG
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){ \
