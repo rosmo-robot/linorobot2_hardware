@@ -19,8 +19,8 @@
 
 //uncomment the base you're building
 // #define LINO_BASE DIFFERENTIAL_DRIVE       // 2WD and Tracked robot w/ 2 motors
-// #define LINO_BASE SKID_STEER            // 4WD robot
-#define LINO_BASE MECANUM               // Mecanum drive robot
+#define LINO_BASE SKID_STEER            // 4WD robot
+//#define LINO_BASE MECANUM               // Mecanum drive robot
 
 //uncomment the motor driver you're using
 #define USE_GENERIC_2_IN_MOTOR_DRIVER      // Motor drivers with 2 Direction Pins(INA, INB) and 1 PWM(ENABLE) pin ie. L298, L293, VNH5019
@@ -63,8 +63,8 @@ ROBOT ORIENTATION
 #define COUNTS_PER_REV2 450                 // wheel2 encoder's no of ticks per rev
 #define COUNTS_PER_REV3 450                 // wheel3 encoder's no of ticks per rev
 #define COUNTS_PER_REV4 450                 // wheel4 encoder's no of ticks per rev
-#define WHEEL_DIAMETER 0.0560               // wheel's diameter in meters
-#define LR_WHEELS_DISTANCE 0.224            // distance between left and right wheels
+#define WHEEL_DIAMETER 0.0430               // wheel's diameter in meters
+#define LR_WHEELS_DISTANCE 0.082           // distance between left and right wheels
 #define PWM_BITS 12                         // PWM Resolution of the microcontroller
 #define PWM_FREQUENCY 100                   // PWM Frequency
 #define PCA_BASE 100                        // enable PCA9685 support
@@ -82,17 +82,17 @@ ROBOT ORIENTATION
 #define MOTOR4_INV false
 
 // ENCODER PINS
-#define MOTOR1_ENCODER_A 4
-#define MOTOR1_ENCODER_B 7
+#define MOTOR1_ENCODER_A 46
+#define MOTOR1_ENCODER_B 3
 
 #define MOTOR2_ENCODER_A 8
-#define MOTOR2_ENCODER_B 9
+#define MOTOR2_ENCODER_B 18
 
-#define MOTOR3_ENCODER_A 39
-#define MOTOR3_ENCODER_B 40
+#define MOTOR3_ENCODER_A 17
+#define MOTOR3_ENCODER_B 16
 
-#define MOTOR4_ENCODER_A 41
-#define MOTOR4_ENCODER_B 42
+#define MOTOR4_ENCODER_A 15
+#define MOTOR4_ENCODER_B 7
 
 // MOTOR PINS
 #ifdef USE_GENERIC_2_IN_MOTOR_DRIVER
