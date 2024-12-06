@@ -13,8 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ESP32S3_WIFI_CONFIG_H
-#define ESP32S3_WIFI_CONFIG_H
+#ifndef ROSMO_WIFI_CONFIG_H 
+#define ROSMO_WIFI_CONFIG_H 
 
 #define LED_PIN LED_BUILTIN //used for debugging status
 
