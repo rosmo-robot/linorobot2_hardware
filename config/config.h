@@ -54,6 +54,10 @@
     #include "custom/esp32s3_wifi_config.h"
 #endif
 
+#ifdef USE_PICO2_CONFIG
+    #include "custom/pico2_config.h"
+#endif
+
 #ifdef USE_PICO_CONFIG
     #include "custom/pico_config.h"
 #endif
