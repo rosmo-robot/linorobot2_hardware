@@ -239,6 +239,7 @@ const int16_t ADC_LUT[4096] = { /* insert adc_calibrate data here */ };
 }
 // #define BOARD_INIT_LATE {}
 // #define BOARD_LOOP {}
+// #define JOINT_STATE_SUBSCRIBER "joint_states"
 
 #ifdef USE_SYSLOG
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){ \
