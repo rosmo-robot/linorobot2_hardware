@@ -266,6 +266,7 @@ class FakeMAG: public MAGInterface
 
         geometry_msgs__msg__Vector3 readMagnetometer() override
         {
+            mag_.x = 0.000020;
             return mag_;
         }
 };
