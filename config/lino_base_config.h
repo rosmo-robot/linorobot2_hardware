@@ -231,6 +231,7 @@ ROBOT ORIENTATION
 #define BOARD_INIT { Wire.begin(); } // needed for i2cdetect
 // #define BOARD_INIT_LATE {}
 // #define BOARD_LOOP {}
+// #define JOINT_STATE_SUBSCRIBER "joint_states"
 
 #ifdef USE_SYSLOG
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){ \

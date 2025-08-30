@@ -227,6 +227,7 @@ class FakeIMU: public IMUInterface
 
         geometry_msgs__msg__Vector3 readAccelerometer() override
         {
+            accel_.z = 9.8;
             return accel_;
         }
 

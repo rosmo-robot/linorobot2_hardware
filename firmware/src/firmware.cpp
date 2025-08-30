@@ -21,6 +21,7 @@
 
 #include <nav_msgs/msg/odometry.h>
 #include <sensor_msgs/msg/imu.h>
+#include <sensor_msgs/msg/joint_state.h>
 #include <sensor_msgs/msg/magnetic_field.h>
 #include <sensor_msgs/msg/battery_state.h>
 #include <sensor_msgs/msg/range.h>
@@ -289,6 +290,17 @@ void twistCallback(const void * msgin)
     prev_cmd_time = millis();
 }
 
+#ifdef JOINT_STATE_SUBSCRIBER
+
+rcl_subscription_t joint_subscriber;
+sensor_msgs__msg__JointState joint_msg;
+
+void jointCallback(const void *msgin)
+{
+    syslog(LOG_INFO, "%s %lu", __FUNCTION__, millis());
+}
+#endif
+
 void publishData()
 {
     static unsigned skip_dip = 0;
@@ -419,6 +431,15 @@ bool createEntities()
         ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist),
         TOPIC_PREFIX "cmd_vel"
     ));
+#ifdef JOINT_STATE_SUBSCRIBER
+    // create joint command subscriber
+    RCCHECK(rclc_subscription_init_default(
+        &joint_subscriber,
+        &node,
+        ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, JointState),
+        TOPIC_PREFIX JOINT_STATE_SUBSCRIBER
+    ));
+#endif
     // create timer for actuating the motors at 50 Hz (1000/20)
     const unsigned int control_timeout = CONTROL_TIMER;
     RCCHECK(rclc_timer_init_default(
@@ -427,7 +448,7 @@ bool createEntities()
         RCL_MS_TO_NS(control_timeout),
         controlCallback
     ));
-    RCCHECK(rclc_executor_init(&executor, &support.context, 2, &allocator));
+    RCCHECK(rclc_executor_init(&executor, &support.context, 3, &allocator));
     RCCHECK(rclc_executor_add_subscription(
         &executor,
         &twist_subscriber,
@@ -435,6 +456,15 @@ bool createEntities()
         &twistCallback,
         ON_NEW_DATA
     ));
+#ifdef JOINT_STATE_SUBSCRIBER
+    RCCHECK(rclc_executor_add_subscription(
+        &executor,
+        &joint_subscriber,
+        &joint_msg,
+        &jointCallback,
+        ON_NEW_DATA
+    ));
+#endif
     RCCHECK(rclc_executor_add_timer(&executor, &control_timer));
 
     // synchronize time with the agent
@@ -462,6 +492,9 @@ bool destroyEntities()
     RCSOFTCHECK(rcl_publisher_fini(&range_publisher, &node));
 #endif
     RCSOFTCHECK(rcl_subscription_fini(&twist_subscriber, &node));
+#ifdef JOINT_STATE_SUBSCRIBER
+    RCSOFTCHECK(rcl_subscription_fini(&joint_subscriber, &node));
+#endif
     RCSOFTCHECK(rcl_timer_fini(&control_timer));
     RCSOFTCHECK(rclc_executor_fini(&executor));
     RCSOFTCHECK(rcl_node_fini(&node))
@@ -526,6 +559,19 @@ void setup()
     initLidar(); // after wifi connected
     battery_msg = getBattery();
     prev_voltage = battery_msg.voltage;
+#ifdef JOINT_STATE_SUBSCRIBER
+    // allocate dynamic msg memory
+    static micro_ros_utilities_memory_conf_t conf = {0};
+    conf.max_string_capacity = 20;
+    conf.max_ros2_type_sequence_capacity = 10;
+    conf.max_basic_type_sequence_capacity = 10;
+    bool success = micro_ros_utilities_create_message_memory(
+        ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, JointState),
+        &joint_msg,
+        conf
+    );
+    syslog(LOG_INFO, "%s %lu allocate msg %d", __FUNCTION__, millis(), success);
+#endif
 
 #ifdef MICRO_ROS_TRANSPORT_ARDUINO_WIFI
     set_microros_net_transports(AGENT_IP, AGENT_PORT);
