@@ -507,10 +507,10 @@ bool destroyEntities()
 
 void setup()
 {
-    Serial.begin(BAUDRATE);
 #ifdef ESP32
     Serial.setRxBufferSize(1024);
 #endif
+    Serial.begin(BAUDRATE);
     initLed();
 #ifdef BOARD_INIT // board specific setup, must include Wire.begin
     BOARD_INIT
